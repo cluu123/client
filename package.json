@@ -1,0 +1,54 @@
+{
+    "name": "tot",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "dev": "uu-server",
+        "build": "uu-server",
+        "lint": "eslint --fix --ext .tsx,.ts,.vue,.js ./src"
+    },
+    "keywords": [],
+    "author": "tot",
+    "license": "ISC",
+    "dependencies": {
+        "@amap/amap-jsapi-loader": "^1.0.1",
+        "@babel/eslint-parser": "^7.22.5",
+        "@chenqi_uu/eslint-config-uu-client": "^1.0.0",
+        "@chenqi_uu/uu-cli-git-hooks": "^1.0.0",
+        "@chenqi_uu/uu-server": "^1.1.8",
+        "axios": "^1.4.0",
+        "babel-eslint": "^10.1.0",
+        "babel-plugin-component": "^1.1.1",
+        "copy-webpack-plugin": "^11.0.0",
+        "dayjs": "^1.11.9",
+        "element-plus": "^2.3.9",
+        "eslint": "^8.43.0",
+        "execa": "5.0.0",
+        "file-loader": "^6.2.0",
+        "gsap": "^3.12.2",
+        "http-proxy": "^1.18.1",
+        "pinia": "^2.1.6",
+        "process": "^0.11.10",
+        "socket.io-client": "^4.6.1",
+        "spark-md5": "^3.0.2",
+        "swiper": "^10.1.0",
+        "vant": "^4.6.4",
+        "vue": "^3.3.4",
+        "vue-at": "^3.0.0-alpha.2",
+        "vue-eslint-parser": "^9.3.1",
+        "vue-loader": "^17.2.2",
+        "vue-pdf": "^4.3.0",
+        "vue-router": "^4.2.4",
+        "webpack-merge": "^4.2.2"
+    },
+    "devDependencies": {
+        "cache-loader": "^4.1.0",
+        "eslint-plugin-vue": "^9.15.1",
+        "unplugin-auto-import": "^0.16.6",
+        "unplugin-vue-components": "^0.25.1",
+        "vue-template-compiler": "^2.7.14"
+    },
+    "gitHooks": {
+        "commit-msg": "uu-cli-git-hooks-commit-msg"
+    }
+}

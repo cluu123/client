@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+
+    </div>
+    <div id="btn">
+        change
+    </div>
+    <script type="module">
+        import { h, patch } from './index.js'
+        let container = document.getElementById("container");
+        let btn = document.getElementById("btn");
+
+        const myVnode1 = h("ul", {}, [
+            h("li", { key: "D" }, "D"),
+            h("li", { key: "C" }, "C"),
+            h("li", { key: "B" }, "B"),
+            h("li", { key: "A" }, "A"),
+            h('input', {
+                props: {
+                    type: 'text',
+                    disabled: true
+                }
+            }, '')
+        ]);
+        // 上树
+        patch(container, myVnode1);
+
+        const myVnode2 = h("ul", {}, [
+        h("li", { key: "D" }, "D22"),
+            h("li", { key: "C", props: {
+                style: {
+                    color: '#f00'
+                },
+                disabled: false,
+                class: 'is-disabled'
+            } }, "C"),
+            h('input', {
+                props: {
+                    type: 'text',
+                    disabled: false
+                }
+            }, '')
+        ]);
+
+        btn.onclick = function () {
+            patch(myVnode1, myVnode2);
+        };
+    </script>
+</body>
+</html>
