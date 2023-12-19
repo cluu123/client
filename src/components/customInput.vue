@@ -14,7 +14,7 @@
 
 <script setup>
 import {
-    onMounted, ref, nextTick
+    onMounted, ref
 } from 'vue';
 
 const props = defineProps({

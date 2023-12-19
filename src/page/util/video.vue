@@ -97,8 +97,8 @@ export default {
                     const image = new Image();
                     image.file = blob;
                     const reader = new FileReader();
-                    reader.onload = (aImg => e => {
-                        aImg.src = e.target.result;
+                    reader.onload = (aImg => el => {
+                        aImg.src = el.target.result;
                     })(image);
 
                     reader.readAsDataURL(blob);
@@ -136,7 +136,7 @@ export default {
     },
     watch: {
         placeholderImg: {
-            handler(newVal, oldVal) {
+            handler() {
                 this.refreshHolderImg();
             },
             immediate: true
