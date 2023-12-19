@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/ScrollTrigger.min.js"></script>
+    <style>
+        video {
+            width: 500px;
+            height: 10px;
+        }
+    </style>
+  </head>
+  <body>
+    <video id="video1" autoplay ></video>
+    <video id="video2" autoplay></video>
+    <button id="btn"></button>
+    <script>
+        const local = new RTCPeerConnection();
+        const remote = new RTCPeerConnection();
+        const constraints = {
+            audio: true,
+            video: true
+        }
+        let strema = null;
+        btn.onclick= e=> {
+            strema.getVideoTracks().forEach(ele => {
+                ele.enabled = false;
+            })
+        }
+        navigator.mediaDevices.getUserMedia(constraints).then(async localStream => {
+            strema = localStream;
+            video1.srcObject = localStream;
+            localStream.getTracks().forEach(track => {
+                local.addTrack(track, localStream);
+            });
+            local.onicecandidate = e => {
+                if (e.candidate) {
+                    remote.addIceCandidate(e.candidate);
+                }
+            }
+            remote.ontrack = e => {
+                console.log(e, 22);
+                const stream = e.streams[0];
+                video2.srcObject = stream;
+                stream.onloadedmetadata = function() {
+                    // 流已准备好播放
+                    video2.play();
+                };
+            }
+            remote.onicecandidate = e => {
+                if (e.candidate) {
+                    local.addIceCandidate(e.candidate);
+                }
+            }
+            const offer = await local.createOffer();
+            await local.setLocalDescription(offer);
+
+            await remote.setRemoteDescription(offer);
+            const answer = await remote.createAnswer();
+            await remote.setLocalDescription(answer);
+
+            await local.setRemoteDescription(answer);
+
+        })
+
+    </script>
+  </body>
+</html>

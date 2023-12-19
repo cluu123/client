@@ -1,0 +1,192 @@
+@font-face {
+  font-family: "totfont"; /* Project id 4086736 */
+  src: url('iconfont.woff2?t=1695116446097') format('woff2'),
+       url('iconfont.woff?t=1695116446097') format('woff'),
+       url('iconfont.ttf?t=1695116446097') format('truetype'),
+       url('iconfont.svg?t=1695116446097#totfont') format('svg');
+}
+
+.totfont {
+  font-family: "totfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.tot-yuyin3:before {
+  content: "\e667";
+}
+
+.tot-fanzhuanjingtou:before {
+  content: "\e872";
+}
+
+.tot-anquanzhongxin:before {
+  content: "\e895";
+}
+
+.tot-anquan:before {
+  content: "\ec4d";
+}
+
+.tot-yuyinyou:before {
+  content: "\e628";
+}
+
+.tot-yuyinzuo:before {
+  content: "\e62b";
+}
+
+.tot-saying:before {
+  content: "\e62f";
+}
+
+.tot-shezhi:before {
+  content: "\e8b7";
+}
+
+.tot-tupian1:before {
+  content: "\e67f";
+}
+
+.tot-weizhi:before {
+  content: "\e8ff";
+}
+
+.tot-tupian2:before {
+  content: "\e889";
+}
+
+.tot-weizhi1:before {
+  content: "\e670";
+}
+
+.tot-shexiangtou:before {
+  content: "\eca5";
+}
+
+.tot-yuyin:before {
+  content: "\e805";
+}
+
+.tot-jiahao:before {
+  content: "\e726";
+}
+
+.tot-shouye:before {
+  content: "\e63e";
+}
+
+.tot-shengboyuyinxiaoxi:before {
+  content: "\e8c5";
+}
+
+.tot-gengduo:before {
+  content: "\e719";
+}
+
+.tot-yuyin1:before {
+  content: "\eae6";
+}
+
+.tot-xiangce:before {
+  content: "\e62a";
+}
+
+.tot-yuyin2:before {
+  content: "\e606";
+}
+
+.tot-tupian:before {
+  content: "\e607";
+}
+
+.tot-sousuo1:before {
+  content: "\e8b9";
+}
+
+.tot-Emoji:before {
+  content: "\e672";
+}
+
+.tot-shipin:before {
+  content: "\e812";
+}
+
+.tot-grid:before {
+  content: "\e6b6";
+}
+
+.tot-65:before {
+  content: "\e64a";
+}
+
+.tot-back:before {
+  content: "\e662";
+}
+
+.tot-sousuo:before {
+  content: "\e86e";
+}
+
+.tot-faxian-copy:before {
+  content: "\e949";
+}
+
+.tot-homefill-copy:before {
+  content: "\e942";
+}
+
+.tot-xinxifill-copy:before {
+  content: "\e943";
+}
+
+.tot-xinxifill-copy-copy:before {
+  content: "\e944";
+}
+
+.tot-homefill:before {
+  content: "\e6bb";
+}
+
+.tot-xinxifill:before {
+  content: "\e762";
+}
+
+.tot-faxianjihuo:before {
+  content: "\e655";
+}
+
+.tot-wodexiao:before {
+  content: "\e941";
+}
+
+.tot-home:before {
+  content: "\e608";
+}
+
+.tot-faxian:before {
+  content: "\e8c4";
+}
+
+.tot-faxian1:before {
+  content: "\e609";
+}
+
+.tot-faxian-copy1:before {
+  content: "\e945";
+}
+
+.tot-faxian1-copy:before {
+  content: "\e946";
+}
+
+.tot-wodexiao-copy:before {
+  content: "\e947";
+}
+
+.tot-wodexiao-copy1:before {
+  content: "\e948";
+}
+
