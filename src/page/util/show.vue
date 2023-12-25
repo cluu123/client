@@ -20,6 +20,7 @@ import gsap2 from './gsap2';
 import flip from './flip';
 import audioVisib from './audioVisib';
 import video from './video';
+import video1 from './video1';
 
 import { useRoute } from 'vue-router';
 import { markRaw } from 'vue';
@@ -40,7 +41,8 @@ const routeMap = markRaw({
     gsap2,
     flip,
     audioVisib,
-    video
+    video,
+    video1
 });
 </script>
 

@@ -50,6 +50,8 @@
                             <i class="tot-shipin totfont"></i>
                         </div>
                     </div>
+                    <div class="item-content-mess" v-if="item.type === 6" v-html="setTxtImg(item.message)" @click="clickTxtImg">
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,6 +133,7 @@ export default {
             this.toolInfo.tool = false;
         },
         moreTools(e) {
+            console.log(this.$refs.messContain.offsetWidth);
             this.toolInfo.customClickDown = setTimeout(() => {
                 this.toolInfo.tool = false;
                 console.log(e);
@@ -140,7 +143,7 @@ export default {
                         navigator.vibrate([200]);
                     }
                     this.toolInfo.tool = true;
-                    this.toolInfo.x = e.pageX;
+                    this.toolInfo.x = `${this.$refs.messContain.offsetWidth}`;
                     this.toolInfo.y = e.pageY;
                     this.toolInfo.el = e.target.tagName === 'IMG' ? e.target.src : e.target.textContent;
                 }
@@ -158,6 +161,7 @@ export default {
         showSwpDialog(item) {
             const index = this.messMainInfo.imgList.findIndex(ele => ele.message === item.message);
             this.currentSide = index;
+            console.log(this.messMainInfo.imgList, this.currentSide, item);
             this.$refs.swiperEle.init(index);
         },
         handleTimer(time) {
@@ -196,6 +200,24 @@ export default {
             this.audio.addEventListener('canplaythrough', () => {
                 this.audio.play();
             });
+        },
+        setTxtImg(data) {
+            return data.replace(/<<<(.*)>>>/g, (match, item) => {
+                if (item) {
+                    if (!this.messMainInfo.imgList.some(ele => ele.message === item)) {
+                        console.log(11);
+                        this.messMainInfo.imgList.push({ message: item });
+                    }
+                    return `<img @click="click" src="${item}" />`;
+                }
+                return '';
+            });
+        },
+        clickTxtImg(e) {
+            if (e.target.currentSrc) {
+                const data = e.target.currentSrc.replace(/(.*)(?=\/upload.*)/, '');
+                this.showSwpDialog({ message: data });
+            }
         }
     }
 };
@@ -266,7 +288,7 @@ export default {
                 justify-content: end;
                 align-items: center;
                 font-size: 16px;
-                background: #FFD700;
+                background: #ffd700;
                 border-radius: 10px;
                 padding: 0 15px;
                 .otoVideo-c {
@@ -293,12 +315,12 @@ export default {
         .item-content {
             flex-direction: row-reverse;
             &-mess {
-                background-color: #87CEEB;
+                background-color: #87ceeb;
             }
         }
     }
     .left .item-content-mess {
-        background-color: #FFD700;
+        background-color: #ffd700;
     }
     .hover {
         -webkit-tap-highlight-color: transparent;

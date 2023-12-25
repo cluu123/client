@@ -57,6 +57,7 @@ import CustomInput from '../customInput';
 import { emoji, moreList } from '@/enum/message';
 import { showToast } from 'vant';
 import { upload } from '@/lib/pubApi';
+import { base64toBlob } from '@/utils/blob';
 
 export default {
     components: {
@@ -116,20 +117,51 @@ export default {
             });
         },
         userBlur() {
-            console.log(2323);
             this.socket.emit('user blur', {
                 uid: this.user.tot_uid,
                 fid: this.fid
             });
         },
-        sendMess() {
+        async sendMess() {
+            if (!this.params.ipt) {
+                return;
+            }
+            const upFile = {};
+            let type = 0;
+            const data = this.params.ipt.replace(/<img[^>]+src=["']([^"']+)["'][^>]*>/g, (match, src, idx) => {
+                if (src) {
+                    const blob = base64toBlob(src);
+                    const fileItem = new File([blob], `${Date.now()}.png`, { type: 'image/png' });
+                    const file = new FormData();
+                    file.append('file', fileItem);
+                    // 有文本有图片
+                    type = 6;
+                    upFile[idx] = {
+                        file,
+                        url: ''
+                    };
+                    return '<<<url>>>';
+                }
+                return '';
+            });
+
+            // eslint-disable-next-line guard-for-in
+            for (const i in upFile) {
+                if (upFile[i]) {
+                    const file = upFile[i].file;
+                    // eslint-disable-next-line no-await-in-loop
+                    const url = await upload(file);
+                    upFile[i].url = url;
+                }
+            }
+            const resultData = data.replace(/(<<<url>>>)/g, (match, item, idx) => `<<<${upFile[idx].url}>>>`);
             if (this.typeInfo.type === 'group') {
                 this.socket.emit('g-g message', {
                     time: dayjs().valueOf(),
-                    type: 0,
+                    type,
                     uid: this.user.tot_uid,
                     groupId: this.typeInfo.groupId,
-                    message: this.params.ipt,
+                    message: resultData,
                     status: 0,
                     img: this.user.img
                 });
@@ -137,10 +169,10 @@ export default {
             else {
                 this.socket.emit('o-o message', {
                     time: dayjs().valueOf(),
-                    type: 0,
+                    type,
                     uid: this.user.tot_uid,
                     fid: this.fid,
-                    message: this.params.ipt,
+                    message: resultData,
                     status: 0
                 });
             }
@@ -183,10 +215,11 @@ export default {
         },
         selectEmoji(data) {
             const value = this.params.ipt;
-            const local = this.$refs.input.local;
+            let local = this.$refs.input.local;
             this.params.ipt = `${value.slice(0, local)}${data}${value.slice(local)}`;
             this.$refs.input.customInput.innerText = this.params.ipt;
-            this.$refs.input.local += 2;
+            local += 2;
+            this.$refs.input.setCursorPosition(local);
             // const value = this.params.ipt;
             // this.params.ipt = `${value.slice(0, this.ipt.iptLocal)}${data}${value.slice(this.ipt.iptLocal)}`;
             // this.ipt.iptLocal += 2;

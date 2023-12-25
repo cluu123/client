@@ -4,18 +4,17 @@
         ref="customInput"
         contenteditable
         @keydown.enter.exact="submit"
-        @blur="getLocal"
+        @blur="getCursor"
         @input="input"
         @focus="focus"
+        @click="getCursor"
         @paste.stop.prevent="pasteImg($event)"
     >
     </div>
 </template>
 
 <script setup>
-import {
-    onMounted, ref
-} from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps({
     modelValue: '',
@@ -26,12 +25,11 @@ const emit = defineEmits(['update:modelValue', 'sendMess', 'userInput', 'userBlu
 // 输入框el
 const customInput = ref();
 const local = ref(0);
-
 // 输入框值改变
 const input = () => {
     if (customInput.value) {
-        const text = customInput.value.innerText;
-        emit('update:modelValue', text);
+        const innerHTML = customInput.value.innerHTML;
+        emit('update:modelValue', innerHTML);
     }
 };
 const focus = () => {
@@ -42,76 +40,73 @@ const submit = event => {
     if (event.key === 'Enter' && !event.shiftKey) {
         event.preventDefault();
         emit('sendMess', props.modelValue);
-        customInput.value.innerText = '';
+        customInput.value.innerHTML = '';
     }
 };
 
-// 获取光标
-const getLocal = () => {
-    emit('userBlur');
-    const selection = window.getSelection();
-    if (selection.rangeCount === 0) {
-        return 0;
-    }
-    const range = selection.getRangeAt(0);
-    const preSelectionRange = range.cloneRange();
-    preSelectionRange.selectNodeContents(customInput.value);
-    preSelectionRange.setEnd(range.startContainer, range.startOffset);
-    local.value = preSelectionRange.toString().length;
-    return '';
+const getCursor = () => {
+    let caretOffset = 0;
+    const element = customInput.value;
+    const range1 = window.getSelection().getRangeAt(0);
+    const preCaretRange = range1.cloneRange();
+    preCaretRange.selectNodeContents(element);
+    preCaretRange.setEnd(range1.endContainer, range1.endOffset);
+    caretOffset = preCaretRange.toString().length;
+    console.log(caretOffset);
+    local.value = caretOffset;
+    return caretOffset;
+};
+
+const setCursorPosition = cursorPosition => {
+    const element = customInput.value;
+    const range = document.createRange();
+    range.setStart(element.firstChild, cursorPosition);
+    range.setEnd(element.firstChild, cursorPosition);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
 };
 
 // 黏贴
 const pasteImg = e => {
-    e.preventDefault();
-    console.log(e.clipboardData);
-    // const clipboardData = e.clipboardData || window.clipboardData;
-    // e.preventDefault(); // 阻止默认粘贴行为
-    // if (clipboardData.getData('text/plain')) {
-    //     const pastedText = clipboardData.getData('text/plain'); // 获取粘贴的纯文本
+    const clipboardData = e.clipboardData || window.clipboardData;
+    e.preventDefault(); // 阻止默认粘贴行为
+    for (let i = 0; i < clipboardData.items.length; i++) {
+        const item = clipboardData.items[i];
+        // 如果内容是文件，则显示
+        if (item.kind === 'file') {
+            const blob = item.getAsFile();
+            const reader = new FileReader();
+            const image = new Image();
+            reader.onload = event => {
+                const base64 = event.target.result;
+                image.src = base64;
 
-    //     // 获取光标当前位置
-    //     const selection = window.getSelection();
-    //     const currentRange = selection.getRangeAt(0);
-    //     const currentPosition = currentRange.startOffset;
+                const selection = window.getSelection();
+                const oldRange = selection.getRangeAt(0);
+                // 在当前光标位置插入粘贴的图片
+                oldRange.deleteContents();
+                oldRange.insertNode(image);
+                selection.collapseToEnd();
 
-    //     // 在当前位置插入粘贴的文本
-    //     const textBefore = customInput.value.innerText.slice(0, currentPosition);
-    //     const textAfter = customInput.value.innerText.slice(currentPosition);
-    //     customInput.value.innerText = textBefore + pastedText + textAfter;
-
-    //     // 重新设置光标位置
-    //     const newPosition = currentPosition + pastedText.length;
-    //     const newRange = document.createRange();
-    //     const sel = window.getSelection();
-    //     newRange.setStart(customInput.value.childNodes[0], newPosition);
-    //     newRange.collapse(true);
-    //     sel.removeAllRanges();
-    //     sel.addRange(newRange);
-    //     nextTick(() => {
-    //         input();
-    //     });
-    //     return;
-    // }
-    // console.log(e.clipboardData, clipboardData);
-    // const item = (e.clipboardData.items || e.originalEvent.clipboardData).items;
-    // console.log(item.length);
-    // console.log(clipboardData.getData('image'), clipboardData.getData('text'));
+                emit('update:modelValue', customInput.value.innerHTML);
+                // // 获取光标位置
+                // console.log(selection.getRangeAt(0).startOffset);
+            };
+            reader.readAsDataURL(blob);
+        }
+        else if (item.kind === 'string') {
+            item.getAsString(str => {
+                document.execCommand('insertText', false, str);
+            });
+        }
+    }
 };
-
-onMounted(() => {
-    customInput.value.addEventListener('click', () => {
-        const selection = window.getSelection();
-        const range = selection.getRangeAt(0);
-        const offset = range.startOffset;
-        local.value = offset;
-        console.log(local.value);
-    });
-});
 
 defineExpose({
     customInput,
-    local
+    local,
+    setCursorPosition
 });
 </script>
 

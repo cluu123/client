@@ -76,7 +76,7 @@ export default {
             }
         },
         pasteImg(e) {
-            console.log(33, e.clipboardData.items[0].getAsFile());
+            console.log(33, e.clipboardData.items);
             console.log('%c[FollowUploadImage-pasteImg]', 'color: #63ADD1');
             const cbd = e.clipboardData;
             if (!(cbd && cbd.items)) {

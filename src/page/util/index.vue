@@ -24,7 +24,7 @@ export default {
     },
     data() {
         return {
-            showItem: ['cvs1', 'cvs2', 'cvs3', 'cvs4', 'svg', 'upload', 'autoHeight', 'swiper', 'gsap', 'gsap2', 'flip', 'audioVisib', 'video']
+            showItem: ['cvs1', 'cvs2', 'cvs3', 'cvs4', 'svg', 'upload', 'autoHeight', 'swiper', 'gsap', 'gsap2', 'flip', 'audioVisib', 'video', 'video1']
         };
     },
     methods: {
