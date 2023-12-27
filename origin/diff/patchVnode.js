@@ -8,6 +8,7 @@ import { updateProperties } from "./updateProperties.js";
  * @returns 
  */
 export default function patchVnode(oldVnode, newVnode) {
+  console.log(oldVnode, 222);
   // 1. 判断新旧 vnode 是否是同一个对象
   if (oldVnode === newVnode) return;
   updateProperties(oldVnode, newVnode)
@@ -16,7 +17,6 @@ export default function patchVnode(oldVnode, newVnode) {
     newVnode.text !== undefined &&
     (newVnode.children === undefined || newVnode.children.length === 0)
   ) {
-    console.log(111);
     // newVnode 有 text 属性
     // 2.1 判断 newVnode 与 oldVnode 的 text 属性是否相同
     if (newVnode.text !== oldVnode.text) {
@@ -34,11 +34,13 @@ export default function patchVnode(oldVnode, newVnode) {
       // oldVnode没有children属性 说明有text;  newVnode有children属性
       // 清空oldVnode的内容
       oldVnode.elm.innerHTML = "";
-      // 遍历新的vnode的子节点，创建DOM，上树
-      for (let ch of newVnode.children) {
-        let chDOM = createElement(ch);
-        oldVnode.elm.appendChild(chDOM);
-      }
+      createElement(newVnode)
+      // // 遍历新的vnode的子节点，创建DOM，上树
+      // for (let ch of newVnode.children) {
+      //   let chDOM = createElement(ch);
+      //   newVnode.elm.appendChild(chDOM)
+      // }
+      oldVnode.elm.appendChild(newVnode.elm);
     }
   }
 }

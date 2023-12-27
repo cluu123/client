@@ -32,3 +32,16 @@ export const so = params => api({
     params,
     method: 'post'
 });
+
+export const getTxt = params => api({
+    url: '/tot/get/testText',
+    params,
+    headers: {
+        range: 'bytes=0-3'
+    }
+});
+
+export const getCache = params => api({
+    url: '/tot/get/cache',
+    params
+});

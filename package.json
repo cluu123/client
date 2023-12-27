@@ -14,7 +14,7 @@
         "@amap/amap-jsapi-loader": "^1.0.1",
         "@babel/eslint-parser": "^7.22.5",
         "@chenqi_uu/eslint-config-uu-client": "^1.0.0",
-        "@chenqi_uu/uu-cli-git-hooks": "^1.0.0",
+        "@chenqi_uu/uu-cli-git-hooks": "^1.0.2",
         "@chenqi_uu/uu-server": "^1.1.8",
         "axios": "^1.4.0",
         "babel-eslint": "^10.1.0",
@@ -42,7 +42,6 @@
         "webpack-merge": "^4.2.2"
     },
     "devDependencies": {
-        "cache-loader": "^4.1.0",
         "eslint-plugin-vue": "^9.15.1",
         "unplugin-auto-import": "^0.16.6",
         "unplugin-vue-components": "^0.25.1",

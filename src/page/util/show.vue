@@ -19,7 +19,7 @@ import gsap from './gsap';
 import gsap2 from './gsap2';
 import flip from './flip';
 import audioVisib from './audioVisib';
-import video from './video';
+import waterfall from './waterfall';
 import video1 from './video1';
 
 import { useRoute } from 'vue-router';
@@ -41,7 +41,7 @@ const routeMap = markRaw({
     gsap2,
     flip,
     audioVisib,
-    video,
+    waterfall,
     video1
 });
 </script>
