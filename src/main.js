@@ -19,7 +19,7 @@ import { io } from 'socket.io-client';
 
 import click from '../webPlugin/localClick';
 click(showSuccessToast);
-
+console.log(1);
 const Vue = createApp(App);
 
 Vue.use(createPinia());
