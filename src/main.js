@@ -27,7 +27,7 @@ Vue.use(router);
 
 // Vue.use(ElementUI);
 Vue.use(Vant);
-
+console.log(2);
 const rootStore = useCounterStore();
 // const router = new VueRouter({ routes });
 // const store = new Vuex.Store(storeDef);
